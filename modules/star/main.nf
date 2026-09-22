@@ -6,16 +6,18 @@ process STAR {
     tuple val(meta), path(reads)
 
     output:
-    tmp.txt
+    path "tmp.txt"
 
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+    """
     star \\
         --runTreadN \\
         --runMode \\
         --genomeDir \\
         --genomeFastaFiles \\
         --sjdbGTFfile \\
-        --sjdbOverhang \\
+    j   --sjdbOverhang \\
+    """
 }

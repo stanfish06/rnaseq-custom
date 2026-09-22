@@ -1,0 +1,2 @@
+- Agents are not allowed to add comments or docstrings
+- Agents are not allowed to change configuration files without permission

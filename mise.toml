@@ -1,0 +1,11 @@
+[tools]
+uv = "latest"
+
+[settings]
+python.uv_venv_auto = true
+
+[tasks.format]
+run = [
+  "treefmt",
+  "nextflow lint -format -harshil-alignment",
+]

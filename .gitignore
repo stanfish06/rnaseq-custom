@@ -1,0 +1,4 @@
+*.pyc
+.DS_Store
+.nextflow*
+data/

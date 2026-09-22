@@ -1,0 +1,4 @@
+sample,fastq_1,fastq_2,bam,bai,single_end
+test,data/test/test_1.fastq.gz,data/test/test_2.fastq.gz,,,
+test2,data/test/test2_1.fastq.gz,data/test/test2_2.fastq.gz,,,
+test_bam,,,data/test/test.paired_end.sorted.bam,data/test/test.paired_end.sorted.bam.bai,false

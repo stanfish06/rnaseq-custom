@@ -5,7 +5,9 @@ uv = "latest"
 python.uv_venv_auto = true
 
 [tasks.format]
-run = [
-  "treefmt",
-  "nextflow lint -format -harshil-alignment",
-]
+run = '''
+#!/usr/bin/env nix
+#! nix develop {{config_root}} --command bash
+treefmt
+nextflow lint -format -harshil-alignment
+'''

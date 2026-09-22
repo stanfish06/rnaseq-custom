@@ -9,5 +9,12 @@ run = '''
 #!/usr/bin/env nix
 #! nix develop {{config_root}} --command bash
 treefmt
-nextflow lint -format -harshil-alignment
+nextflow lint -format -harshil-alignment .
 '''
+
+[tasks.clean]
+run = [
+  "rm -rf .nextflow*",
+  "rm -rf work",
+  "rm -rf results",
+]

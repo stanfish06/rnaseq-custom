@@ -15,7 +15,7 @@ process UMICOLLAPSE {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def heap = Math.max(1, (task.memory.toGiga() * 0.8).intValue())
     """
-    export UMICOLLAPSE_JAVA_OPTS="-Xms1g -Xmx${heap}g -Xss1G"
+    export UMICOLLAPSE_JAVA_OPTS="-Xms1g -Xmx${heap}g -Xss1G -XX:+ExitOnOutOfMemoryError -Djava.io.tmpdir=\$PWD"
     umicollapse bam \\
         -i ${bam} \\
         -o ${prefix}.dedup.bam \\

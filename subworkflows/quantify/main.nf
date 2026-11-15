@@ -112,6 +112,6 @@ workflow FEATURE_COUNTS {
 
     emit:
     counts        = SUBREAD_FEATURECOUNTS.out.counts
-    multiqc_files = SUBREAD_FEATURECOUNTS.out.summary.map { _meta, f -> f }
+    multiqc_files = SUBREAD_FEATURECOUNTS.out.summary.filter { meta, _f -> meta.id == 'gene' }.map { _meta, f -> f }
     versions      = SUBREAD_FEATURECOUNTS.out.versions
 }

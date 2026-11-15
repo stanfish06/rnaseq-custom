@@ -64,7 +64,7 @@ workflow {
                     strandedness: row.strandedness ?: default_strand,
                     condition: row.condition ?: row.sample,
                     genome: params.genomes ? row.genome : 'genome',
-                ]
+                ] + (row.star_args ? [star_args: row.star_args] : [:])
                 def files = single_end
                     ? [file(row.fastq_1, checkIfExists: true)]
                     : [file(row.fastq_1, checkIfExists: true), file(row.fastq_2, checkIfExists: true)]

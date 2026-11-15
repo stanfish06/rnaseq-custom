@@ -7,9 +7,13 @@ builder=rnaseq/guix-builder
 uid=$(id -u)
 gid=$(id -g)
 
+formats=${PACK_FORMATS:-docker squashfs}
+
 tools=("$@")
 if [[ ${#tools[@]} -eq 0 ]]; then
-  tools=(fastqc fastp multiqc star)
+  for m in "$here"/manifests/*.scm; do
+    tools+=("$(basename "$m" .scm)")
+  done
 fi
 
 mkdir -p "$out"
@@ -40,27 +44,39 @@ docker_cfg=$here/docker.config
 singularity_cfg=$here/singularity.config
 
 for tool in "${tools[@]}"; do
-  version=$(guix package -L /src/packages --show="$tool" | awk '$1 == "version:" && !v { v = $2 } END { print v }')
+  pkg=$tool
+  if ! guix package -L /src/packages --show="$pkg" >/dev/null 2>&1; then
+    pkg=$(grep -o '"[^"]*"' "$here/manifests/$tool.scm" | head -n 1 | tr -d '"')
+  fi
+  version=$(guix package -L /src/packages --show="$pkg" | awk '$1 == "version:" && !v { v = $2 } END { print v }')
   echo "[info] $tool $version"
 
   symlinks=(-S /bin=bin)
   if grep -q '"font-' "$here/manifests/$tool.scm"; then
     symlinks+=(-S /run/current-system/profile/share/fonts=share/fonts)
   fi
-
-  tarball=$(guix pack -L /src/packages -f docker "${symlinks[@]}" -m "/src/manifests/$tool.scm" | tail -n 1)
-  export_store_file "$tarball" "$tool-$version.docker.tar.gz"
-
-  squashfs=$(guix pack -L /src/packages -f squashfs "${symlinks[@]}" -m "/src/manifests/$tool.scm" | tail -n 1)
-  export_store_file "$squashfs" "$tool-$version.squashfs"
-
-  loaded=$(docker load -i "$out/$tool-$version.docker.tar.gz" | awk '/Loaded image/ { print $NF }')
-  docker tag "$loaded" "rnaseq/$tool:$version"
-  if [[ $loaded != "rnaseq/$tool:$version" ]]; then
-    docker rmi "$loaded" >/dev/null 2>&1 || true
+  if grep -q '"nss-certs"' "$here/manifests/$tool.scm"; then
+    symlinks+=(-S /etc/ssl=etc/ssl)
   fi
 
-  echo "[info] $version" > "$out/$tool.version"
+  if [[ " $formats " == *" squashfs "* ]]; then
+    squashfs=$(guix pack -L /src/packages -f squashfs "${symlinks[@]}" -m "/src/manifests/$tool.scm" | tail -n 1)
+    export_store_file "$squashfs" "$tool-$version.squashfs"
+  fi
+
+  if [[ " $formats " == *" docker "* ]]; then
+    tarball=$(guix pack -L /src/packages -f docker "${symlinks[@]}" -m "/src/manifests/$tool.scm" | tail -n 1)
+    export_store_file "$tarball" "$tool-$version.docker.tar.gz"
+
+    loaded=$(docker load -i "$out/$tool-$version.docker.tar.gz" | awk '/Loaded image/ { print $NF }')
+    docker tag "$loaded" "rnaseq/$tool:$version"
+    if [[ $loaded != "rnaseq/$tool:$version" ]]; then
+      docker rmi "$loaded" >/dev/null 2>&1 || true
+    fi
+    rm -f "$out/$tool-$version.docker.tar.gz"
+  fi
+
+  echo "$version" > "$out/$tool.version"
 done
 
 {
@@ -68,7 +84,8 @@ done
   for f in "$out"/*.version; do
     tool=$(basename "$f" .version)
     version=$(<"$f")
-    printf "    withName: '.*%s.*' { container = 'rnaseq/%s:%s' }\n" "${tool^^}" "$tool" "$version"
+    selector=${tool^^}
+    printf "    withName: '.*%s.*' { container = 'rnaseq/%s:%s' }\n" "${selector//-/_}" "$tool" "$version"
   done
   echo "}"
 } > "$docker_cfg"
@@ -80,7 +97,8 @@ echo "[info] wrote $docker_cfg"
   for f in "$out"/*.version; do
     tool=$(basename "$f" .version)
     version=$(<"$f")
-    printf "    withName: '.*%s.*' { container = \"\${projectDir}/containers/out/%s-%s.squashfs\" }\n" "${tool^^}" "$tool" "$version"
+    selector=${tool^^}
+    printf "    withName: '.*%s.*' { container = \"\${projectDir}/containers/out/%s-%s.squashfs\" }\n" "${selector//-/_}" "$tool" "$version"
   done
   echo "}"
 } > "$singularity_cfg"

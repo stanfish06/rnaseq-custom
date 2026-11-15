@@ -1,9 +1,2 @@
 (specifications->manifest
-  (list "star"
-        "bash"
-        "coreutils"
-        "findutils"
-        "grep"
-        "sed"
-        "gawk"
-        "procps"))
+  (list "star" "samtools" "bash" "coreutils" "findutils" "grep" "sed" "gawk" "procps" "gzip"))

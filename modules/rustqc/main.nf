@@ -23,6 +23,7 @@ process RUSTQC_RNA {
         --threads ${task.cpus} \\
         ${paired} \\
         ${args}
+    ${meta.single_end ? "find ${prefix} -name '*inner_distance*' -delete" : ''}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

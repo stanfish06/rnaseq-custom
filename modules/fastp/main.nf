@@ -23,8 +23,6 @@ process FASTP {
             --json ${prefix}.fastp.json \\
             --html ${prefix}.fastp.html \\
             --thread ${task.cpus} \\
-            --disable_adapter_trimming \\
-            --disable_length_filtering \\
             ${args} \\
             2> ${prefix}.fastp.log
 
@@ -44,8 +42,6 @@ process FASTP {
             --json ${prefix}.fastp.json \\
             --html ${prefix}.fastp.html \\
             --thread ${task.cpus} \\
-            --disable_adapter_trimming \\
-            --disable_length_filtering \\
             ${args} \\
             2> ${prefix}.fastp.log
 

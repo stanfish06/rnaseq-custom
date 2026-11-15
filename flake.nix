@@ -22,6 +22,7 @@
               nextflow
               treefmt
               nixfmt
+              sqlite
             ]
             ++ (with javaPackages.compiler.temurin-bin; [
               jdk-25

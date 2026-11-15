@@ -3,8 +3,7 @@ process RUSTQC_RNA {
     label 'process_quad'
 
     input:
-    tuple val(meta), path(bam), path(bai)
-    path gtf
+    tuple val(meta), path(bam), path(bai), path(gtf)
 
     output:
     tuple val(meta), path("*", type: 'dir'), emit: results

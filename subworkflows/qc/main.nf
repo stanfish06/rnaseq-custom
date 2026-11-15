@@ -30,7 +30,12 @@ workflow QC_BAM {
     gtf
 
     main:
-    RUSTQC_RNA(bam, gtf)
+    RUSTQC_RNA(
+        bam
+            .map { meta, b, bai -> [meta.genome, meta, b, bai] }
+            .combine(gtf, by: 0)
+            .map { _genome, meta, b, bai, anno -> [meta, b, bai, anno] }
+    )
 
     multiqc_files = RUSTQC_RNA.out.results.map { _meta, dir -> dir }
 

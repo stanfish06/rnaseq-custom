@@ -57,6 +57,7 @@ smoke() {
     mv "$dest/$smoke_chrom.gtf.part" "$dest/$smoke_chrom.gtf"
   fi
   fetch "${fasta_url[yeast]}" "$dest/yeast_R64.fa"
+  fetch "${gtf_url[yeast]}" "$dest/yeast_R64.gtf"
   promoters "$dest/$smoke_chrom.gtf" "$dest/promoter_${promoter_upstream}.$smoke_chrom.bed"
   ls -l "$dest"
 }

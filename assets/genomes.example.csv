@@ -1,0 +1,5 @@
+name,fasta,gtf,star_index,rsem_index,gedi_index
+human,data/refs/human/genome.fa,data/refs/human/genes.gtf,,,
+mouse,data/refs/mouse/genome.fa,data/refs/mouse/genes.gtf,,,
+macaque,data/refs/macaque/genome.fa,data/refs/macaque/genes.gtf,,,
+yeast,data/refs/yeast/genome.fa,data/refs/yeast/genes.gtf,,,

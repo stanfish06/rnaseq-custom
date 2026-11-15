@@ -7,3 +7,4 @@
     - `guix` for managing containers
     - `mise` for extra dev env setups and tasks
     - `uv` for all python tasks
+    - `d2` and `sqlite3` to generate diagrams and tables

@@ -1,0 +1,3 @@
+name,file,feature,attribute,args
+enhancer,data/refs/human/HS_reg.gtf,enhancer,ID,-O --fracOverlap 0.2
+promoter_2kb,data/refs/human/promoter_2000.bed,,,-O

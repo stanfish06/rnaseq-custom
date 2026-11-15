@@ -1,0 +1,5 @@
+name,fasta,bowtie2_index
+human,data/refs/human/genome.fa,
+mouse,data/refs/mouse/genome.fa,
+macaque,data/refs/macaque/genome.fa,
+yeast,data/refs/yeast/genome.fa,

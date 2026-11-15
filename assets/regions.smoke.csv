@@ -1,0 +1,2 @@
+name,file,feature,attribute,args
+promoter_2kb,data/refs/smoke/promoter_2000.chr22.bed,,,-O

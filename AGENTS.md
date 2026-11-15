@@ -2,6 +2,7 @@
 - Agents are not allowed to change configuration files without permission
 - Agents are not allowed to commit themselves
 - Agents are not allowed to edit this file
+- Edit readme or other markdowns need user permission (unless those are pure agent owned md files)
 - Agents must use repo toolchains:
     - `nix` for all dev env setup
     - `guix` for managing containers

@@ -1,2 +1,2 @@
-name,file,feature,attribute,args
-promoter_2kb,data/refs/smoke/promoter_2000.chr22.bed,,,-O
+name,file,feature,attribute,args,genome
+promoter_2kb,data/refs/smoke/promoter_2000.chr22.bed,,,-O,human_chr22

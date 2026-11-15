@@ -98,6 +98,23 @@ out_files <- c(out_files, list(
   list(data = gi.s[["counts"]], row_meta = gene_info, out_file_suffix = "gene_counts_scaled.tsv")
 ))
 
+if (quant_type == "rsem") {
+  fpkm_tx <- do.call(cbind, lapply(fns, function(f) {
+    d <- read.delim(f, check.names = FALSE)
+    setNames(d[["FPKM"]], d[["transcript_id"]])[rownames(txi[["counts"]])]
+  }))
+  colnames(fpkm_tx) <- names(fns)
+  fpkm_gene <- rowsum(fpkm_tx, transcript_info$tx2gene[rownames(fpkm_tx), "gene_id"])
+  out_files <- c(out_files, list(
+    list(data = fpkm_tx, row_meta = transcript_info$transcript, out_file_suffix = "transcript_fpkm.tsv"),
+    list(
+      data = fpkm_gene,
+      row_meta = transcript_info$gene[match(rownames(fpkm_gene), transcript_info$gene[["gene_id"]]), ],
+      out_file_suffix = "gene_fpkm.tsv"
+    )
+  ))
+}
+
 message("Writing ", length(out_files), " output table(s)...")
 invisible(lapply(out_files, write_table, out_file_prefix))
 message("Done.")

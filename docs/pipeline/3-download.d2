@@ -1,0 +1,7 @@
+direction: down
+in: "in: queries.txt (one accession or zenodo record per line)"
+resolve: "resolve runs: ENA filereport | NCBI esearch | BioStudies -> ENA"
+fetch: "fetch: ENA fastq.gz (md5) -> SRA fallback | Zenodo files (md5)"
+stats: "seqkit stats"
+out: "out: <source>/*.fastq.gz, download/samplesheet.csv, download/runinfo.csv"
+in -> resolve -> fetch -> stats -> out

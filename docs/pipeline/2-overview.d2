@@ -1,0 +1,19 @@
+direction: down
+queries: "queries.txt: SRR | PRJ* | GSE | E-MTAB | zenodo"
+download: "DOWNLOAD (download)"
+sheet: "samplesheet.csv (+genome)"
+refs: "genomes.csv or fasta+gtf"
+qc: "QC (qc)"
+rnaseq: "RNASEQ (standard, tag3p)"
+slamseq: "SLAMSEQ (slamseq)"
+report: "multiqc_report.html"
+queries -> download
+download -> sheet: "--input"
+sheet -> qc
+sheet -> rnaseq
+sheet -> slamseq
+refs -> rnaseq
+refs -> slamseq
+qc -> report
+rnaseq -> report
+slamseq -> report

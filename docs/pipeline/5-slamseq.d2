@@ -1,0 +1,13 @@
+direction: down
+in: "in: samplesheet.csv, genomes.csv or fasta+gtf"
+qc: "QC_FASTQ: fastqc, fastp"
+genome: "PREPARE_GENOME (per genome): STAR, GEDI, introns"
+align: "ALIGN: STAR end-to-end, MD tags"
+slam: "GEDI_SLAM"
+counts: "FEATURE_COUNTS"
+side: "CONTAMINATION"
+out: "out: <genome>/ NTR table, counts; multiqc"
+in -> qc -> genome -> align
+align -> slam -> out
+align -> counts -> out
+align -> side -> out

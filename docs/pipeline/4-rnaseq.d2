@@ -1,0 +1,21 @@
+direction: down
+in: "in: samplesheet.csv, genomes.csv or fasta+gtf"
+qc: "QC_FASTQ: fastqc, fastp"
+genome: "PREPARE_GENOME (per genome): STAR, RSEM, introns"
+align: "ALIGN: STAR -> sorted BAM (+ transcriptome BAM)"
+umi: "UMICOLLAPSE (tag3p)"
+quant: "QUANTIFY + tximport"
+counts: "FEATURE_COUNTS"
+iso: "ISOFORM (--isoform)"
+side: "CONTAMINATION, QC_BAM"
+out: "out: <genome>/ BAMs, quant, counts, isoforms; multiqc"
+in -> qc -> genome -> align
+align -> umi -> counts
+align -> quant
+align -> counts
+align -> iso
+align -> side
+quant -> out
+counts -> out
+iso -> out
+side -> out

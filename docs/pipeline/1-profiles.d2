@@ -1,0 +1,12 @@
+direction: right
+data: "data profile" {
+  direction: down
+  test: "test: mode=qc, sarscov2"
+  smoke: "smoke: chr22+yeast, caps"
+}
+engine: "engine profile" {
+  direction: down
+  docker: "docker: rnaseq/* images"
+  singularity: "singularity: *.squashfs"
+}
+data -> engine: "use one of each"

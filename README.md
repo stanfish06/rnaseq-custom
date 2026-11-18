@@ -1,4 +1,4 @@
-## Custom RNAseq pipeline
+## RNAseq pipeline for the Heemskerk's lab
 - Standard and 3' RNAseq, SLAMseq
 
 ## Files
